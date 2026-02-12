@@ -1,0 +1,156 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+</style>
+
+<div class="row" style="padding-top:3%; padding-bottom:3%;
+background: url(assets/files/wall.jpg) no-repeat center center;
+background-attachment: fixed;
+background-size: cover;">
+
+  <div class="col-sm-4"></div>
+
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body shadow-lg grad">
+
+        <form>
+
+          <!-- Heading -->
+          <h2 *ngIf="!(form.data.id>0)" class="text-primary font-weight-bold text-center">
+            {{'Add Product' | translate}}
+          </h2>
+          <h2 *ngIf="form.data.id>0" class="text-primary font-weight-bold text-center">
+            {{'Update Product' | translate}}
+          </h2>
+
+          <!-- Messages -->
+          <div *ngIf="form.error && form.message" class="alert alert-danger">
+            {{form.message}}
+          </div>
+          <div *ngIf="!form.error && form.message" class="alert alert-success">
+            {{form.message}}
+          </div>
+
+          <!-- Name -->
+          <div class="pt-3">
+            <b>{{'Name' | translate}}</b>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-tag"></i></div>
+              </div>
+              <input type="text" name="name"
+                [(ngModel)]="form.data.name"
+                class="form-control"
+                placeholder="Enter Name">
+            </div>
+            <span class="alertRedColor">{{form.inputerror.name}}</span>
+          </div>
+<!-- Description -->
+<div class="pt-3">
+  <b>{{'Description' | translate}}</b>
+
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <i class="fa fa-bars"></i>
+      </div>
+    </div>
+
+    <textarea
+      name="description"
+      [(ngModel)]="form.data.description"
+      class="form-control"
+      placeholder="Enter Description">
+    </textarea>
+  </div>
+
+  <span class="alertRedColor">
+    {{form.inputerror.description}}
+  </span>
+</div>
+
+          <!-- Price -->
+          <div class="pt-3">
+            <b>{{'Price' | translate}}</b>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-inr"></i></div>
+              </div>
+              <input type="number" name="price"
+                [(ngModel)]="form.data.price"
+                class="form-control"
+                placeholder="Enter Price">
+            </div>
+            <span class="alertRedColor">{{form.inputerror.price}}</span>
+          </div>
+
+          <!-- Category -->
+          <div class="pt-3">
+            <b>{{'Category' | translate}}</b>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-list"></i></div>
+              </div>
+              <select class="form-control"
+                name="category"
+                [(ngModel)]="form.data.category">
+                <option value="">Please Select</option>
+                <option value="High">High Category</option>
+                <option value="Low">Low Category</option>
+              </select>
+            </div>
+            <span class="alertRedColor">{{form.inputerror.category}}</span>
+          </div>
+
+          <!-- Date Of Purchase -->
+          <div class="pt-3">
+            <b>{{'Date Of Purchase' | translate}}</b>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+              <input type="date"
+                name="dateOfPurchase"
+                [value]="form.data.dateOfPurchase | date:'yyyy-MM-dd'"
+                (input)="form.data.dateOfPurchase=parseDate($event.target.value)"
+                class="form-control">
+            </div>
+            <span class="alertRedColor">{{form.inputerror.dateOfPurchase}}</span>
+          </div>
+
+          <!-- Buttons -->
+          <div class="row pt-4 pl-3">
+            <button *ngIf="!(form.data.id>0)"
+              (click)="submit()"
+              [disabled]="!validate()"
+              class="btn btn-success mr-2">
+              Save
+            </button>
+
+            <button *ngIf="form.data.id>0"
+              (click)="submit()"
+              class="btn btn-success mr-2">
+              Update
+            </button>
+
+            <button type="button"
+              (click)="forward('/productlist')"
+              class="btn btn-warning">
+              List
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

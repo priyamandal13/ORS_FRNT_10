@@ -1,0 +1,181 @@
+<app-navbar></app-navbar>
+
+<style>
+  #nnn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .panel-heading {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-inputs {
+    margin-top: 20px;
+  }
+
+  .search-inputs .form-control,
+  .search-inputs .btn {
+    margin-bottom: 10px;
+  }
+
+  .content-wrapper {
+    background: url('assets/files/teahu.png') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: auto;
+    height: 105vh;
+    padding: 20px;
+  }
+
+  .table-responsive {
+    margin-top: 20px;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="content-wrapper" style="padding-top:7%;
+background: url(assets/files/wall.jpg) no-repeat center center;
+background-attachment: fixed;
+background-size: cover;
+height:119vh;">
+
+  <div class="container-fluid">
+    <div class="panel panel-primary" style="padding-top:80px;">
+
+      <!-- Heading -->
+      <div class="panel-heading">
+        <h1 class="text-primary font-weight-bold">
+          {{ 'REVIEW LIST' | translate }}
+        </h1>
+      </div>
+
+      <!-- Search -->
+      <div class="row search-inputs p-1 justify-content-center">
+
+        <div class="col-sm-2">
+          <input type="text"
+                 name="reviewerName"
+                 [(ngModel)]="form.searchParams.reviewerName"
+                 class="form-control"
+                 placeholder="Enter Reviewer Name">
+        </div>
+
+        <div class="col-sm-2">
+          <input type="number"
+                 name="rating"
+                 [(ngModel)]="form.searchParams.rating"
+                 class="form-control"
+                 placeholder="Enter Rating">
+        </div>
+
+        <div class="col-sm-1">
+          <button (click)="submit()" class="btn btn-primary w-100">
+            Search
+          </button>
+        </div>
+
+        <div>
+          <button (click)="forward('/review')" type="button" class="btn btn-success w-100">
+            Add Review
+          </button>
+        </div>
+
+        <div class="col-sm-1">
+          <button (click)="deleteMany()" class="btn btn-danger w-100">
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div *ngIf="form.error" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ form.message }}
+      </div>
+
+      <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ form.message }}
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-dark">
+          <thead class="thead-dark text-uppercase">
+            <tr align="center">
+              <th>
+                <input type="checkbox"
+                       [(ngModel)]="isMasterSel"
+                       (change)="checkUncheckAll($event)" />
+              </th>
+              <th>S.No</th>
+              <th>Reviewer Name</th>
+              <th>Rating</th>
+              <th>Review</th>
+              <th>Review Date</th>
+              <th>Status</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let r of form.list; let i = index" align="center">
+              <td>
+                <input type="checkbox"
+                       #checkboxes
+                       (change)="checklistUpdate()"
+                       [id]="r.id" />
+              </td>
+
+              <td>{{ (form.pageNo * 5) + i + 1 }}</td>
+              <td>{{ r.reviewerName }}</td>
+              <td>{{ r.rating }}</td>
+              <td>{{ r.reviewText }}</td>
+              <td>{{ r.reviewDate | date:'yyyy-MM-dd' }}</td>
+              <td>{{ r.status }}</td>
+
+              <td>
+                <button id="nnn"
+                        class="fa fa-edit text-primary"
+                        (click)="forward('/review/' + r.id)">
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between mt-3">
+          <button (click)="previous()"
+                  [disabled]="form.pageNo == 0"
+                  class="btn btn-info">
+            Previous
+          </button>
+
+          <a class="btn btn-warning"
+             [routerLink]="['/reviewlist']"
+             (click)="exit()">
+            Reset
+          </a>
+
+          <button (click)="next()"
+                  [disabled]="nextList == 0"
+                  class="btn btn-info">
+            Next
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

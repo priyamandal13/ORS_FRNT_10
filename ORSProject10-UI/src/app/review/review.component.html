@@ -1,0 +1,141 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+</style>
+
+<div class="row" style="padding-top: 10%; padding-bottom:13%;
+background: url(assets/files/wall.jpg) no-repeat center center;
+background-attachment: fixed;
+background-size: cover;width:auto;
+height: auto;">
+
+  <div class="col-sm-4"></div>
+
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body shadow-lg grad">
+        <form>
+
+          <!-- Heading -->
+          <h2 *ngIf="!form.data.id>0" class="text-primary font-weight-bold text-center">
+            {{'Add Review' | translate}}
+          </h2>
+
+          <h2 *ngIf="form.data.id>0" class="text-primary font-weight-bold text-center">
+            {{'Update Review' | translate}}
+          </h2>
+
+          <!-- Message -->
+          <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{form.message}}
+          </div>
+
+          <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{form.message}}
+          </div>
+
+          <!-- Reviewer Name -->
+          <div style="padding-top:3%">
+            <b>{{'Reviewer Name' | translate}}</b>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="fa fa-user"></i>
+                </div>
+              </div>
+              <input type="text"
+                     name="reviewerName"
+                     [(ngModel)]="form.data.reviewerName"
+                     class="form-control"
+                     placeholder="Enter Reviewer Name">
+            </div>
+            <span class="alertRedColor">{{form.inputerror.reviewerName}}</span>
+          </div>
+
+          <!-- Rating -->
+          <div style="padding-top:3%">
+            <b>{{'Rating' | translate}}</b>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="fa fa-star"></i>
+                </div>
+              </div>
+              <input type="number"
+                     name="rating"
+                     [(ngModel)]="form.data.rating"
+                     class="form-control"
+                     placeholder="Enter Rating">
+            </div>
+            <span class="alertRedColor">{{form.inputerror.rating}}</span>
+          </div>
+
+          <!-- Review Text -->
+          <div style="padding-top:3%">
+            <b>{{'Review Text' | translate}}</b>
+            <textarea
+              name="reviewText"
+              [(ngModel)]="form.data.reviewText"
+              class="form-control"
+              rows="3"
+              placeholder="Write review here">
+            </textarea>
+            <span class="alertRedColor">{{form.inputerror.reviewText}}</span>
+          </div>
+
+          <!-- Review Date -->
+          <div style="padding-top:3%">
+            <b>{{'Review Date' | translate}}</b>
+            <input type="date"
+              name="reviewDate"
+              [value]="form.data.reviewDate | date:'yyyy-MM-dd'"
+              (input)="form.data.reviewDate=parseDate($event.target.value)"
+              class="form-control">
+          </div>
+
+          <!-- Status -->
+          <div style="padding-top:3%">
+            <b>{{'Status' | translate}}</b>
+            <input type="text"
+                   name="status"
+                   [(ngModel)]="form.data.status"
+                   class="form-control"
+                   placeholder="Enter Status">
+          </div>
+
+          <!-- Buttons -->
+          <div class="row pt-3 pl-3 pb-3">
+            <button *ngIf="!form.data.id>0"
+                    (click)="submit()"
+                    class="btn btn-success mr-2">
+              Save
+            </button>
+
+            <button *ngIf="form.data.id>0"
+                    (click)="submit()"
+                    class="btn btn-success mr-2">
+              Update
+            </button>
+
+            <button type="button"
+                    (click)="forward('/reviewlist')"
+                    class="btn btn-warning">
+              List
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
